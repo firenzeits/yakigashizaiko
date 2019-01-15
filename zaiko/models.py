@@ -6,9 +6,10 @@ from django.contrib.auth.models import User
 #Itemクラス
 class Item(models.Model):
     item = models.CharField(max_length=10)
+    price = models.IntegerField(default=0)
     
     def __str__(self):
-        return str(self.item)
+        return str(self.item) + ',' + str(self.price)
         
 #Shopクラス
 class Shop(models.Model):
