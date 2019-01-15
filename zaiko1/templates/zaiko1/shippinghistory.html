@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+<title>出荷：在庫管理システム</title>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS --><script
+src="https://code.jquery.com/jquery-3.3.1.min.js"
+integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+<!--
+
+function disp(){
+
+
+	window.alert('更新完了しました。');
+
+
+}
+
+// -->
+</script>
+</head>
+<script>
+    $(function () {
+        // 日付は、年-月-日 の形式でお願いする。
+        let dateFormat = 'yy-mm-dd';
+        $('#id_start').datepicker({
+            dateFormat: dateFormat
+        });
+        $('#id_end').datepicker({
+            dateFormat: dateFormat
+        });
+    });
+</script>
+
+<body class="p-3 bg-dark">
+	<div class="container">
+		<h1 class="text-light"><a href="{% url 'index' %}">TOP</a>>>><a href="{% url 'shippinghistory' %}">出荷状況</a></h1>
+		<div class="row">
+			<div class="col-12">
+				<div class="bg-light p-3 mb-3">
+					<form action="{% url 'shippinghistory' %}" method="post">
+    					{% csrf_token %}
+    					出荷元：{{form.fromshop}}
+    					出荷先：{{form.toshop}}
+    					商品：{{form.item}}
+    					<br>
+    					検索期間：{{form.start}}～{{form.end}}
+    					<input type="submit" class="btn btn-danger badge-pill" style="" value="検索">
+    				</form>
+   				</div>
+				<div class="bg-light p-3 mb-3">
+    				<table class="container">
+    					<p class="text-dark"><span class="font-weight-bold mr-3">検索条件</span>{{msg}}</p>
+						<tr class="row p-2  bg-dark border-bottom">
+							<th class="col-2 text-center text-white">出荷登録日時</th>
+							<th class="col-2 text-center text-white">出荷元</th>
+							<th class="col-2 text-center text-white">出荷先</th>
+							<th class="col-4 text-center text-white">商品</th>
+							<th class="col-2 text-center text-white">数量</th>
+						</tr>
+                {% for line in data %}
+						<tr class="row p-2 border-bottom">
+							<td class="col-2">{{line.create_date|date:"Y.m.j h:i"}}</td>
+							<td class="col-2">{{line.fromshop}}</td>
+							<td class="col-2">{{line.toshop}}</td>
+							<td class="col-4">{{line.item}}</td>
+							<td class="col-2 text-right">{{line.num}}</td>
+						</tr>
+                {% endfor %}
+						<tr class="row p-2 bg-dark border-bottom">
+							<td class="col-2 text-white font-weight-bold">{{count}}件</td>
+							<td class="col-2"></td>
+							<td class="col-2"></td>
+							<td class="col-4"></td>
+							<td class="col-2 text-right text-white font-weight-bold">合計：{{sum}}</td>
+						</tr>
+                </table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
