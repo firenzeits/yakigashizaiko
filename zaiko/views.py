@@ -94,6 +94,7 @@ def update(request,shopid):
 
     return render(request, 'zaiko/update.html', params)
 
+
 def shipping(request):
     msg=""
     data=[]
@@ -101,9 +102,12 @@ def shipping(request):
         obj = ShippingOrder()
         #temp = request.POST
         shippingOrder = ShippingOrderForm(request.POST, instance=obj)
-        fromshop = request.POST['fromshop']
-        toshop = request.POST['toshop']
-        item = request.POST['item']
+        fromshopid = request.POST['fromshop']
+        toshopid = request.POST['toshop']
+        itemid = request.POST['item']
+        fromshop = Shop(fromshopid)
+        toshop = Shop(toshopid)
+        item = Item(itemid)
         shippingnum = request.POST['num']        
         fromstockStatus = StockStatus.objects.get_or_create(item=item,shop=fromshop)
         tostockStatus = StockStatus.objects.get_or_create(item=item,shop=toshop)
@@ -120,7 +124,8 @@ def shipping(request):
             return render(request, 'zaiko/shipping.html', params)
         else:
             msg="以下の通り在庫を移動させます。"
-            data.append([str(Shop.objects.get(id=fromshop)),"→",str(Shop.objects.get(id=toshop))])
+            data.append(str(item))
+            data.append([str(Shop.objects.get(id=fromshopid)),"→",str(Shop.objects.get(id=toshopid))])
             data.append([fromnum,shippingnum,tonum])
             data.append(["↓ (-"+ shippingnum +")","","↓ (+"+ shippingnum +")"])
             data.append([int(fromnum) - int(shippingnum),"",int(tonum) + int(shippingnum)])
