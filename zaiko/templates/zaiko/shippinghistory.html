@@ -56,12 +56,11 @@ function disp(){
 				<div class="bg-light p-3 mb-3">
 					<form action="{% url 'shippinghistory' %}" method="post">
     					{% csrf_token %}
-    					出荷元：{{form.fromshop}}
-    					出荷先：{{form.toshop}}
-    					商品：{{form.item}}
-    					<br>
-    					検索期間：{{form.start}}～{{form.end}}
-    					<input type="submit" class="btn btn-danger badge-pill" style="" value="検索">
+    					<p class="px-3" style="font-size:1.5rem">出荷元：{{form.fromshop}}</p>
+    					<p class="px-3" style="font-size:1.5rem">出荷先：{{form.toshop}}</p>
+    					<p class="px-3" style="font-size:1.5rem">商品：{{form.item}}</p>
+    					<p class="px-3" style="font-size:1.5rem">検索期間：{{form.start}}～{{form.end}}</p>
+    					<input type="submit" class="btn btn-danger badge-pill" style="font-size:30px" value="検索">
     				</form>
    				</div>
 				<div class="bg-light p-3 mb-3">

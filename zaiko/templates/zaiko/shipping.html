@@ -40,13 +40,13 @@ function disp(){
 		<h1 class="text-light"><a href="{% url 'index' %}">TOP</a>>>>出荷</h1>
 		<div class="row">
 			<div class="col-12">
-				<div class="bg-light p-3 mb-3 text-center">
+				<div class="bg-light p-3 mb-3">
     					<form action="{% url 'shipping' %}" method="post">
     					{% csrf_token %}
-    					<h2 class="p-3">{{form.fromshop}}から{{form.toshop}}へ</h2>
-    					<h2 class="p-3">{{form.item}}を<span class="text-right">{{form.num}}</span>個</h2>
+    					<p class="px-3" style="font-size:1.5rem">{{form.fromshop}}から{{form.toshop}}へ</p>
+    					<p class="px-3" style="font-size:1.5rem">{{form.item}}を<span class="text-right">{{form.num}}</span>個</p>
 
-    					<input type="submit" class="btn btn-danger badge-pill p-3" style="font-size:50px" value="出荷する。">
+    					<input type="submit" class="btn btn-danger badge-pill" style="font-size:30px" value="出荷する。">
                  </form>
 				</div>
 			</div>

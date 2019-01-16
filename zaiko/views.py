@@ -17,10 +17,8 @@ def index(request):
     date_format = datetime(2019,1,1,0,0,0,tzinfo=utc)
     
     shoplist = Shop.objects.all().values()
-    #recent_date.append("最終更新日時")
     for n in range(len(shoplist)):
         recent_date.append(date_format)
-    #ecent_date.append("---")
 
     arr = []
     for item in Item.objects.all().values():
@@ -52,7 +50,7 @@ def update(request,shopid):
     recent_date = datetime(2019,1,1,0,0,0,tzinfo=utc)
     
     shopname = Shop.objects.get(id=shopid)
-    zaikolist = StockStatus.objects.filter(shop=shopid).values_list('item','num','id','update_date')
+    zaikolist = StockStatus.objects.filter(shop=shopid).order_by('-update_date').values_list('item','num','id','update_date')
     for zaiko in zaikolist:
         itemid=zaiko[0]
         itemname = Item.objects.filter(id=itemid).values_list('item')
@@ -91,7 +89,6 @@ def update(request,shopid):
 def shipping(request):
     msg=""
     data=[]
-    meisai=[]
     if (request.method =='POST'):
         obj = ShippingOrder()
         #temp = request.POST
@@ -119,7 +116,7 @@ def shipping(request):
             return render(request, 'zaiko/shipping.html', params)
         else:
             msg="以下の通り在庫を移動させます。"
-            data.append(["品名",":",str(item)])
+            data.append(["品名:",str(Item.objects.get(id=itemid)),""])
             data.append([str(Shop.objects.get(id=fromshopid)),"→",str(Shop.objects.get(id=toshopid))])
             data.append([fromnum,shippingnum,tonum])
             data.append(["↓ (-"+ shippingnum +")","","↓ (+"+ shippingnum +")"])

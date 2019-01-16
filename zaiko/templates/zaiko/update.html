@@ -44,7 +44,8 @@ function disp(){
 					<h2>{{shopname}}</h2>
                     <form action="{% url 'update' shopid %}" method="post">
     						{% csrf_token %}
-        					<h2 class="p-3">{{form.item}}の在庫は{{form.num}}個</h2>
+        					<p class="px-3" style="font-size:1.5rem">{{form.item}}の在庫は</p>
+        					<p class="px-3" style="font-size:1.5rem">{{form.num}}個</p>
         					<input type="submit" class="btn btn-danger badge-pill" style="font-size:30px" value="更新">
 						</form>
                     
@@ -57,9 +58,9 @@ function disp(){
 						</tr>
                 {% for stock in data %}
 						<tr class="row p-2 border-bottom">
-    							<td class="col-6 text-weight-bold" id=>{{stock.0}}</td>
-    							<td class="col-3 text-right">{{stock.1}}</td>
-    							<td class="col-3 text-center"><div class="label badge-pill bg-dark text-white  my-2 p-1 px-3">{{stock.2|date:"Y-m-j H:i:s"}}</div></td>
+    							<td class="col-6 text-weight-bold border-left border-right">{{stock.0}}</td>
+    							<td class="col-3 text-right border-left border-right">{{stock.1}}</td>
+    							<td class="col-3 text-center border-left border-right"><div class="labelbg-dark text-dark p-1 px-3">{{stock.2|date:"Y-m-j H:i:s"}}</div></td>
 						</tr>
                 {% endfor %}
 					</table>
