@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 #Itemクラス
 class Item(models.Model):
-    item = models.CharField(max_length=10)
+    item = models.CharField(max_length=30)
     
     def __str__(self):
         return str(self.item)
