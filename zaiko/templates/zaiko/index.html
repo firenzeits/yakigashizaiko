@@ -50,7 +50,7 @@ crossorigin="anonymous"></script>
 							<th class="bg-dark text-white text-center"><p class="font-weight-bold py-2 my-2">合計</p></th>
 						</tr>
                 {% for stock in data %}
-                    <tr class="mb-1 w-100">
+                    <tr class="mb-1 w-100 border-bottom">
                     {% for instock in stock %}
                         <td class="bg-light p-2 font-weight-bold border-left border-right">{{instock|safe}}</td>
                     {% endfor %}
