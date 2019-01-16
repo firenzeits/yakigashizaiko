@@ -44,7 +44,8 @@ function disp(){
     					<form action="{% url 'shipping' %}" method="post">
     					{% csrf_token %}
     					<p class="px-3" style="font-size:1.5rem">{{form.fromshop}}から{{form.toshop}}へ</p>
-    					<p class="px-3" style="font-size:1.5rem">{{form.item}}を<span class="text-right">{{form.num}}</span>個</p>
+    					<p class="px-3" style="font-size:1.5rem">{{form.item}}を</p>
+    					<p class="px-3" style="font-size:1.5rem">{{form.num}}個</p>
 
     					<input type="submit" class="btn btn-danger badge-pill" style="font-size:30px" value="出荷する。">
                  </form>
