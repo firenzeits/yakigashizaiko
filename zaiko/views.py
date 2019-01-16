@@ -100,7 +100,6 @@ def shipping(request):
     meisai=[]
     if (request.method =='POST'):
         obj = ShippingOrder()
-        itemobj = Item
         #temp = request.POST
         shippingOrder = ShippingOrderForm(request.POST, instance=obj)
         fromshopid = request.POST['fromshop']
@@ -108,12 +107,13 @@ def shipping(request):
         itemid = request.POST['item']
         fromshop = Shop(fromshopid)
         toshop = Shop(toshopid)
-        item = Item.objects.get(id=itemid)
+#        item = Item.objects.get(id=itemid)
+        item = Item(itemid) 
         shippingnum = request.POST['num']        
         fromstockStatus = StockStatus.objects.get_or_create(item=item,shop=fromshop)
         tostockStatus = StockStatus.objects.get_or_create(item=item,shop=toshop)
         fromnum = fromstockStatus[0].num
-        tonum = tostockStatus[0].num        
+        tonum = tostockStatus[0].num
         if ( int(fromnum) < int(shippingnum) ):
             msg="在庫数が出荷数より少ないです。"
             params = {
@@ -125,13 +125,12 @@ def shipping(request):
             return render(request, 'zaiko/shipping.html', params)
         else:
             msg="以下の通り在庫を移動させます。"
+            data.append(["品名",":",str(item)])
             data.append([str(Shop.objects.get(id=fromshopid)),"→",str(Shop.objects.get(id=toshopid))])
             data.append([fromnum,shippingnum,tonum])
             data.append(["↓ (-"+ shippingnum +")","","↓ (+"+ shippingnum +")"])
             data.append([int(fromnum) - int(shippingnum),"",int(tonum) + int(shippingnum)])
 
-            meisai.append(["品名","数量","単価","金額"])
-            meisai.append([str(item.item),int(item.price),int(shippingnum),int(shippingnum) * int(item.price)])
             if shippingOrder.is_valid():
                 shippingOrder.save()
             params = {
@@ -139,7 +138,6 @@ def shipping(request):
                     'form':ShippingOrderForm,
                     'msg':msg,
                     'result':data,
-                    'meisai':meisai,
                     }
             fromstockStatus[0].num = int(fromnum) - int(shippingnum)
             tostockStatus[0].num = int(tonum) + int(shippingnum)
