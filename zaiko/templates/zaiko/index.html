@@ -43,7 +43,7 @@ crossorigin="anonymous"></script>
 				<div class="bg-white p-3 my-3">
 					<table class="container_fluid w-100">
 						<tr class="row no-gutters mb-1">
-							<th class="col-3 bg-dark text-white text-center"><p class="font-weight-bold py-2 my-2">商品</p></th> 
+							<th class="col-4 bg-dark text-white text-center"><p class="font-weight-bold py-2 my-2">商品</p></th> 
 							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 1 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">高畑本店</button></a></th>
 							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 2 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">かの里店</button></a></th>
 							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 3 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">岩塚店</button></a></th>
@@ -55,7 +55,7 @@ crossorigin="anonymous"></script>
 						</tr>
                 {% for stock in data %}
                     <tr class="row no-gutters mb-1">
-                        <td class="col-3 bg-light p-2 font-weight-bold">{{stock.0}}</td>
+                        <td class="col-4 bg-light p-2 font-weight-bold">{{stock.0}}</td>
                         <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.1}}</td>
                         <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.2}}</td>
                         <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.3}}</td>
@@ -67,7 +67,7 @@ crossorigin="anonymous"></script>
                     </tr>
                 {% endfor %}
                     <tr class="row no-gutters mb-1">
-                        <td class="col-3 bg-dark p-2 text-white text-center"><small>{{recentdate.0}}</small></td>
+                        <td class="col-4 bg-dark p-2 text-white text-center"><small>{{recentdate.0}}</small></td>
                         <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.1|date:"Y.m.j H:i:s"}}</small></td>
                         <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.2|date:"Y.m.j H:i:s"}}</small></td>
                         <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.3|date:"Y.m.j H:i:s"}}</small></td>
@@ -75,8 +75,7 @@ crossorigin="anonymous"></script>
                         <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.5|date:"Y.m.j H:i:s"}}</small></td>
                         <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.6|date:"Y.m.j H:i:s"}}</small></td>
                         <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.7|date:"Y.m.j H:i:s"}}</small></td>
-                        <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.8|date:"Y.m.j H:i:s"}}</small></td>
-                        <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.9}}</small></td>
+                        <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.8}}</small></td>
                     </tr>
 					</table>
 				</div>
