@@ -50,8 +50,7 @@ crossorigin="anonymous"></script>
 							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 4 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">大治店</button></a></th>
 							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 5 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">マエストロ</button></a></th>
 							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 6 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">クオレ</button></a></th>
-							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 7 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">ラボ３F</button></a></th>
-							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 8 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">ラボ２F</button></a></th>
+							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 7 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">本部</button></a></th>
 							<th class="col-1 bg-dark text-white text-center">合計</th>
 						</tr>
                 {% for stock in data %}
@@ -65,7 +64,6 @@ crossorigin="anonymous"></script>
                         <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.6}}</td>
                         <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.7}}</td>
                         <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.8}}</td>
-                        <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.9}}</td>
                     </tr>
                 {% endfor %}
                     <tr class="row no-gutters mb-1">
