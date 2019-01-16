@@ -23,9 +23,8 @@ def index(request):
 
     #商品,高畑num,かの里num,岩塚num,大治num,マエストロnum,クオレnum,ラボ3,ラボ2,合計
     #の２次元配列を作る。
-    shopnum = len(shoplist)
     itemnum = len(itemlist)
-    arr = [[0 for i in range(shopnum + 2)] for j in range(itemnum)]  #2次元配列初期化
+    arr = [[0 for i in range(10)] for j in range(itemnum)]  #2次元配列初期化
     
     #配列に品名をセット
     for i in range(itemnum):                #商品名分ループ
