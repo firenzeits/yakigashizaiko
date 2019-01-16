@@ -52,7 +52,7 @@ crossorigin="anonymous"></script>
                 {% for stock in data %}
                     <tr class="mb-1 w-100">
                     {% for instock in stock %}
-                        <td class="bg-light p-2 font-weight-bold text-right border-left border-right">{{instock}}</td>
+                        <td class="bg-light p-2 font-weight-bold border-left border-right">{{instock|safe}}</td>
                     {% endfor %}
                     </tr>
                 {% endfor %}

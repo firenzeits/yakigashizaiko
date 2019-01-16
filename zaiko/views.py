@@ -23,18 +23,23 @@ def index(request):
     arr = []
     for item in Item.objects.all().values():
         arrline = [0 for i in range(len(shoplist) + 2)]
-        arrline[0] = item['item']
+        arrline[0] = "<p class=\"text-left py-0 mb-0\">" + item['item'] + "</p>"
         total = 0
         n = 1                                               
         for shop in shoplist:
-            tempdata = StockStatus.objects.get_or_create(item=item['id'], shop=shop['id'],defaults=dict(item=Item.objects.get(id=item['id']),shop=Shop.objects.get(id=shop['id'])))
+            tempdata = StockStatus.objects.get_or_create(item=item['id'], shop=shop['id'],
+                                                         defaults=dict(
+                                                                 item=Item.objects.get(id=item['id']),
+                                                                 shop=Shop.objects.get(id=shop['id'])
+                                                                 )
+                                                         )
 
-            arrline[n] = tempdata[0].num
-            total += arrline[n]
+            arrline[n] = "<p class=\"text-right py-0 mb-0\">" + str(tempdata[0].num) + "</p>"
+            total += tempdata[0].num
             if recent_date[n-1] <  tempdata[0].update_date:   #最終更新日がより最近だったら更新
                 recent_date[n-1] = tempdata[0].update_date
             n += 1
-        arrline[n] = total
+        arrline[n] = "<p class=\"text-right py-0 mb-0\">" + str(total) + "</p>"
         arr.append(arrline)
     
     params = {
