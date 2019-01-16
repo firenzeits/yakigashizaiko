@@ -13,41 +13,35 @@ from django.db.models import Sum
 
 def index(request):
     arr = []
+    recent_date=[]
     date_format = datetime(2019,1,1,0,0,0,tzinfo=utc)
-    recent_date = ["最終更新日時",date_format,date_format,date_format,date_format,date_format,date_format,date_format,date_format,"---"]
-    recent=date_format
     
-    data = StockStatus.objects.all().values_list('item','shop','num','update_date')
-    itemlist = Item.objects.all().values_list('item')
-    shoplist = Shop.objects.all().values_list('shop')
+    shoplist = Shop.objects.all().values()
+    #recent_date.append("最終更新日時")
+    for n in range(len(shoplist)):
+        recent_date.append(date_format)
+    #ecent_date.append("---")
 
-    #商品,高畑num,かの里num,岩塚num,大治num,マエストロnum,クオレnum,ラボ3,ラボ2,合計
-    #の２次元配列を作る。
-    itemnum = len(itemlist)
-    arr = [[0 for i in range(10)] for j in range(itemnum)]  #2次元配列初期化
+    arr = []
+    for item in Item.objects.all().values():
+        arrline = [0 for i in range(len(shoplist) + 2)]
+        arrline[0] = item['item']
+        total = 0
+        n = 1                                               
+        for shop in shoplist:
+            tempdata = StockStatus.objects.get_or_create(item=item['id'], shop=shop['id'],defaults=dict(item=Item.objects.get(id=item['id']),shop=Shop.objects.get(id=shop['id'])))
+
+            arrline[n] = tempdata[0].num
+            total += arrline[n]
+            if recent_date[n-1] <  tempdata[0].update_date:   #最終更新日がより最近だったら更新
+                recent_date[n-1] = tempdata[0].update_date
+            n += 1
+        arrline[n] = total
+        arr.append(arrline)
     
-    #配列に品名をセット
-    for i in range(itemnum):                #商品名分ループ
-        arr[i][0] = itemlist[i][0]      #列名に商品名をセット
-
-        for j in data:                  #在庫TBLのレコードを１行ずつ読む。商品名,店名,数量
-           arr[j[0]-1][j[1]] = j[2]     #j[0]は商品TBLのID（１はじまり。）、j[1]はユーザID（店名）,j[2]は数量。
-
-           if ( recent_date[j[1]] < j[3]):
-               recent_date[j[1]] = j[3]
-
-        zaikototal = 0
-        shopnum = len(shoplist)         #shopnumは8（フィレンツェ４＋マエストロ＋クオレ＋ラボ２、３
-        for l in range(shopnum):        #rangeは長さshopnumのリストを作る。（8なら、{0,1,2,3,4,5,6,7}
-            zaikototal += arr[i][l+1]   #0は商品名なので、＋1
-
-        arr[i][shopnum + 1] = zaikototal
-
-                
-        
-            
     params = {
             'title':'在庫管理システム',
+            'shopdata' : shoplist,       
             'data':arr,
             'recentdate':recent_date,
             }

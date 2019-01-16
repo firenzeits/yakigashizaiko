@@ -42,43 +42,26 @@ crossorigin="anonymous"></script>
 			<div class="col-12">
 				<div class="bg-white p-3 my-3">
 					<table class="container_fluid w-100">
-						<tr class="row no-gutters mb-1">
-							<th class="col-3 bg-dark text-white text-center"><p class="font-weight-bold py-2 my-2">商品</p></th> 
-							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 1 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">高畑本店</button></a></th>
-							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 2 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">かの里店</button></a></th>
-							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 3 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">岩塚店</button></a></th>
-							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 4 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">大治店</button></a></th>
-							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 5 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">マエストロ</button></a></th>
-							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 6 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">クオレ</button></a></th>
-							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 7 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">ラボ３F</button></a></th>
-							<th class="col-1 bg-dark text-white text-center"><a href="{% url 'update' 8 %}"><button class="btn btn-light badge-pill text-dark font-weight-bold py-2 my-2">ラボ２F</button></a></th>
-							<th class="col-1 bg-dark text-white text-center">合計</th>
+						<tr class="mb-1 w-100">
+							<th class="bg-dark text-white text-center"><p class="font-weight-bold py-2 my-2">商品</p></th> 
+                {% for shop in shopdata %}
+							<th class="bg-dark text-white text-center"><a href="{% url 'update' shop.id %}"><button class="btn btn-light text-dark font-weight-bold py-2 my-2 w-100">{{shop.shop}}</button></a></th>
+                {% endfor %}
+							<th class="bg-dark text-white text-center"><p class="font-weight-bold py-2 my-2">合計</p></th>
 						</tr>
                 {% for stock in data %}
-                    <tr class="row no-gutters mb-1">
-                        <td class="col-3 bg-light p-2 font-weight-bold">{{stock.0}}</td>
-                        <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.1}}</td>
-                        <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.2}}</td>
-                        <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.3}}</td>
-                        <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.4}}</td>
-                        <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.5}}</td>
-                        <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.6}}</td>
-                        <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.7}}</td>
-                        <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.8}}</td>
-                        <td class="col-1 bg-light p-2 font-weight-bold text-right">{{stock.9}}</td>
+                    <tr class="mb-1 w-100">
+                    {% for instock in stock %}
+                        <td class="bg-light p-2 font-weight-bold text-right border-left border-right">{{instock}}</td>
+                    {% endfor %}
                     </tr>
                 {% endfor %}
-                    <tr class="row no-gutters mb-1">
-                        <td class="col-3 bg-dark p-2 text-white text-center"><small>{{recentdate.0}}</small></td>
-                        <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.1|date:"Y.m.j H:i:s"}}</small></td>
-                        <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.2|date:"Y.m.j H:i:s"}}</small></td>
-                        <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.3|date:"Y.m.j H:i:s"}}</small></td>
-                        <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.4|date:"Y.m.j H:i:s"}}</small></td>
-                        <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.5|date:"Y.m.j H:i:s"}}</small></td>
-                        <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.6|date:"Y.m.j H:i:s"}}</small></td>
-                        <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.7|date:"Y.m.j H:i:s"}}</small></td>
-                        <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.8|date:"Y.m.j H:i:s"}}</small></td>
-                        <td class="col-1 bg-dark p-2 text-white text-center"><small>{{recentdate.9}}</small></td>
+                    <tr class="mb-1 w-100">
+                        <td class="bg-dark p-2 text-white text-center"><small>最終更新日</small></td>
+                {% for date in recentdate %}
+                        <td class="bg-dark p-2 text-white text-center"><small>{{date|date:"Y.m.j H:i:s"}}</small></td>
+                {% endfor %}
+                        <td class="bg-dark p-2 text-white text-center"><small>---</small></td>
                     </tr>
 					</table>
 				</div>
