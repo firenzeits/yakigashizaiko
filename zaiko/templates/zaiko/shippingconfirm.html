@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
  
-<title>更新：在庫管理システム</title>
+<title>出荷：在庫管理システム</title>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
@@ -37,37 +37,22 @@ function disp(){
 
 <body class="p-3 bg-dark">
 	<div class="container">
-		<h1 class="text-light"><a href="{% url 'index' %}">TOP</a>>>>更新</h1>
+		<h1 class="text-light"><a href="{% url 'index' %}">TOP</a>>>><a href="{% url 'shippinghistory' %}">出荷状況</a>>>>出荷確認</h1>
 		<div class="row">
 			<div class="col-12">
 				<div class="bg-light p-3 mb-3">
-					<h2>{{shopname}}</h2>
-                    <form action="{% url 'update' shopid %}" method="post">
-						{% csrf_token %}
-    					<p class="px-3" style="font-size:1.5rem">{{form.item}}の在庫は</p>
+    				<form action="{% url 'shippingconfirm' id %}" method="post">
+    					{% csrf_token %}
+    					<p class="px-3" style="font-size:1.5rem">出荷id：{{id}}、出荷日：{{date|date:"Y.m.j h:i"}}</p>
+    					<p class="px-3" style="font-size:1.5rem">{{form.fromshop}}から{{form.toshop}}へ</p>
+    					<p class="px-3" style="font-size:1.5rem">{{form.item}}を</p>
     					<p class="px-3" style="font-size:1.5rem">{{form.num}}個</p>
-    					<input type="submit" class="btn btn-danger badge-pill" style="font-size:30px" value="更新">
-                    </form>
-                    
+    					<p class="px-3" style="font-size:1.5rem">受取：{{form.recieveFlag}}</p>
+    					<p class="px-3" style="font-size:1.5rem">更新日：{{udate|date:"Y.m.j h:i"}}</p>
 
-				{% if data %}
-					<table class="container">
-						<tr class="row p-2">
-							<th class="col-6 text-center bg-dark text-white">商品</th>
-							<th class="col-3 text-center bg-dark text-white">在庫</th>
-							<th class="col-3 text-center bg-dark text-white">更新日時</th>
-						</tr>
-                    {% for stock in data %}
-						<tr class="row p-2 border-bottom">
-    							<td class="col-6 text-weight-bold border-left border-right">{{stock.0}}</td>
-    							<td class="col-3 text-right border-left border-right">{{stock.1}}</td>
-    							<td class="col-3 text-center border-left border-right"><div class="labelbg-dark text-dark p-1 px-3">{{stock.2|date:"Y-m-j H:i:s"}}</div></td>
-						</tr>
-                    {% endfor %}
-					</table>
-                {% endif %}
+    					<input type="submit" class="btn btn-danger badge-pill" style="font-size:30px" value="更新する。">
+                     </form>
 				</div>
-    				<div class="label badge-pill bg-dark text-white my-2 p-1 px-3">最終更新日時：{{recentupdate|date:"Y-m-j H:i:s"}}</div>
 			</div>
 		</div>
 	</div>
