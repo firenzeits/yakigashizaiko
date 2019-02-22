@@ -43,29 +43,27 @@ function disp(){
 				<div class="bg-light p-3 mb-3">
 					<h2>{{shopname}}</h2>
                     <form action="{% url 'update' shopid %}" method="post">
-						{% csrf_token %}
-    					<p class="px-3" style="font-size:1.5rem">{{form.item}}の在庫は</p>
-    					<p class="px-3" style="font-size:1.5rem">{{form.num}}個</p>
-    					<input type="submit" class="btn btn-danger badge-pill" style="font-size:30px" value="更新">
-                    </form>
+    						{% csrf_token %}
+        					<p class="px-3" style="font-size:1.5rem">{{form.item}}の在庫は</p>
+        					<p class="px-3" style="font-size:1.5rem">{{form.num}}個</p>
+        					<input type="submit" class="btn btn-danger badge-pill" style="font-size:30px" value="更新">
+						</form>
                     
 
-				{% if data %}
 					<table class="container">
 						<tr class="row p-2">
 							<th class="col-6 text-center bg-dark text-white">商品</th>
 							<th class="col-3 text-center bg-dark text-white">在庫</th>
 							<th class="col-3 text-center bg-dark text-white">更新日時</th>
 						</tr>
-                    {% for stock in data %}
+                {% for stock in data %}
 						<tr class="row p-2 border-bottom">
     							<td class="col-6 text-weight-bold border-left border-right">{{stock.0}}</td>
     							<td class="col-3 text-right border-left border-right">{{stock.1}}</td>
     							<td class="col-3 text-center border-left border-right"><div class="labelbg-dark text-dark p-1 px-3">{{stock.2|date:"Y-m-j H:i:s"}}</div></td>
 						</tr>
-                    {% endfor %}
+                {% endfor %}
 					</table>
-                {% endif %}
 				</div>
     				<div class="label badge-pill bg-dark text-white my-2 p-1 px-3">最終更新日時：{{recentupdate|date:"Y-m-j H:i:s"}}</div>
 			</div>

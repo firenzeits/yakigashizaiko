@@ -51,44 +51,20 @@ function disp(){
                  </form>
 				</div>
 			</div>
-			{% if errmsg %}
-			<div class="col-12 text-center text-white" style="font-size:2rem;">
-                <p>{{errmsg}}</p>
-            </div>            
-            {% endif %}
-			
-			{% if result %}
 			<div class="col-12">
 				<div class="bg-light p-3 mb-3">
 					<h2 class="text-danger">{{msg}}</h2>
-                    <div class="container-fluid">
-                        <div class="row text-center" style="font-size:2rem;">
-                            <div class="col-4 p-2 bg-secondary">
-                                <div class="p-2">{{result.0}}</div>
-                                <div style="font-size:1rem">{{result.1}}　- {{result.2}}</div>
-                                <div class="font-weight-bold">{{result.3}}</div>
-                                <div style="font-size:0.8rem"><small>出荷時に在庫数を減らします。</small></div>
-                            </div>
-                            <div class="col-4 mx-auto">
-                                <div class="p-2">{{result.4}}</div>
-                                <div class="badge-pill bg-primary mx-auto text-white d-flex align-items-center" style="font-size:3rem;width:150px;height:150px;text-align:center">
-                                    <div class="text-center mx-auto ">
-                                    {{result.5}}
-                                    </div>
-                                </div>
-                                <div class="p-2">￥{{result.6}}</div>
-                            </div>
-                            <div class="col-4 p-2 bg-secondary">
-                                <div class="p-2">{{result.7}}</div>
-                                <div style="font-size:1rem">{{result.8}}　+ {{result.9}}</div>
-                                <div class="font-weight-bold">{{result.10}}</div>
-                                <div style="font-size:0.8rem"><small>受取時に在庫に加算します。</small></div>
-                            </div>
-                        </div>
-                    </div>
+    				<table class="container">
+                {% for line in result %}
+						<tr class="row p-2">
+    							<td class="col-4 h1 text-center text-weight-bold">{{line.0}}</td>
+    							<td class="col-4 h1 text-center text-weight-bold">{{line.1}}</td>
+    							<td class="col-4 h1 text-center text-weight-bold">{{line.2}}</td>
+						</tr>
+                {% endfor %}
+                </table>
 				</div>
 			</div>
-            {% endif %}
 		</div>
 	</div>
 </body>

@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 #Itemクラス
 class Item(models.Model):
     item = models.CharField(max_length=30)
-    price = models.IntegerField(default=0)
     
     def __str__(self):
         return str(self.item)
@@ -14,7 +13,6 @@ class Item(models.Model):
 #Shopクラス
 class Shop(models.Model):
     shop = models.CharField(max_length=10)
-    name = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return str(self.shop)
@@ -36,7 +34,6 @@ class ShippingOrder(models.Model):
     toshop = models.ForeignKey(Shop, on_delete=models.CASCADE,related_name = "toshop" )
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     num = models.IntegerField(default=0)
-    #totalprice = models.IntegerField(default=0)
     recieveFlag = models.BooleanField(default=False)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
