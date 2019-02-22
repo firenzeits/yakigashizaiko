@@ -16,21 +16,21 @@ def index(request):
     recent_date=[]
     date_format = datetime(2019,1,1,0,0,0,tzinfo=utc)
     
-    shoplist = Shop.objects.all().order_by('id')
+    shoplist = Shop.objects.all().order_by('id').values()
     for n in range(len(shoplist)):
         recent_date.append(date_format)
 
     arr = []
-    for item in Item.objects.all():
+    for item in Item.objects.all().values():
         arrline = [0 for i in range(len(shoplist) + 2)]
-        arrline[0] = "<p class=\"text-left py-0 mb-0\">" + str(item) + "</p>"
+        arrline[0] = "<p class=\"text-left py-0 mb-0\">" + item['item'] + "</p>"
         total = 0
         n = 1                                               
         for shop in shoplist:
-            tempdata = StockStatus.objects.get_or_create(item=item, shop=shop,
+            tempdata = StockStatus.objects.get_or_create(item=item['id'], shop=shop['id'],
                                                          defaults=dict(
-                                                                 item=item,
-                                                                 shop=shop
+                                                                 item=Item.objects.get(id=item['id']),
+                                                                 shop=Shop.objects.get(id=shop['id'])
                                                                  )
                                                          )
 
