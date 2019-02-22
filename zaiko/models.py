@@ -14,7 +14,11 @@ class Item(models.Model):
 #Shopクラス
 class Shop(models.Model):
     shop = models.CharField(max_length=10)
+<<<<<<< HEAD
     name = models.ForeignKey(User, on_delete=models.CASCADE,default=0)
+=======
+    name = models.ForeignKey(User, on_delete=models.CASCADE)
+>>>>>>> parent of 6e9f268... Revert "newgimmic"
     
     def __str__(self):
         return str(self.shop)
