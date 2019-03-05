@@ -18,23 +18,23 @@ def index(request):
     recent_date=[]
     date_format = datetime(2019,1,1,0,0,0,tzinfo=utc)
 
-    shoplist = Shop.objects.all().order_by('id')
+    shoplist = Shop.objects.values('name').order_by('id')
     for n in range(len(shoplist)):
         recent_date.append(date_format)
 
     arr = []
-    user = Shop.objects.get(name=request.user)
+    #user = Shop.objects.get(name=request.user)
     
-    #user = "xxx"
+    user = "xxx"
     notrecievedorderlist = ""
-    notrecievedorderlist = ShippingOrder.objects.filter(toshop=user,recieveFlag=False)
+    #notrecievedorderlist = ShippingOrder.objects.filter(toshop=user,recieveFlag=False)
     
-    if (request.method =='POST'):
-        for norecievedorder in notrecievedorderlist:
-            norecievedorder.recieveFlag = True
-            norecievedorder.save()
-            recieve(norecievedorder)
-        return redirect(to='index')
+    #if (request.method =='POST'):
+    #    for norecievedorder in notrecievedorderlist:
+    #        norecievedorder.recieveFlag = True
+    #        norecievedorder.save()
+    #        recieve(norecievedorder)
+    #    return redirect(to='index')
     
     for item in Item.objects.all():
         arrline = [0 for i in range(len(shoplist) + 2)]
@@ -127,7 +127,7 @@ def shipping(request):
         itemobj = Item.objects.get(id=itemid)
         
         item = itemobj.item
-        price = itemobj.price
+        #price = itemobj.price
         
         fromstockStatus = StockStatus.objects.get_or_create(item=itemid,shop=fromshop)
         tostockStatus = StockStatus.objects.get_or_create(item=itemid,shop=toshop)
@@ -136,8 +136,8 @@ def shipping(request):
         tonum = tostockStatus[0].num
         
         
-        totalprice = int(shippingnum)*int(price)
-        #totalprice = "XXX"
+        #totalprice = int(shippingnum)*int(price)
+        totalprice = "XXX"
         obj = ShippingOrder()
         #temp = request.POST
         shippingOrder = ShippingOrderForm(request.POST, instance=obj)
