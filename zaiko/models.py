@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 #Itemクラス
 class Item(models.Model):
     item = models.CharField(max_length=30)
-    #price = models.IntegerField(default=0)
+    price = models.IntegerField(default=0)
     
     def __str__(self):
         return str(self.item)
@@ -14,7 +14,7 @@ class Item(models.Model):
 #Shopクラス
 class Shop(models.Model):
     shop = models.CharField(max_length=10)
-    #name = models.ForeignKey(User, on_delete=models.CASCADE,default=0)
+    name = models.ForeignKey(User, on_delete=models.CASCADE,default=0)
     
     def __str__(self):
         return str(self.shop)
