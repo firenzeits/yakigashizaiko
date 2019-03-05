@@ -72,8 +72,9 @@ function disp(){
 							<th class="col-2 text-center text-white">出荷登録日時</th>
 							<th class="col-2 text-center text-white">出荷元</th>
 							<th class="col-2 text-center text-white">出荷先</th>
-							<th class="col-2 text-center text-white">商品</th>
+							<th class="col-1 text-center text-white">商品</th>
 							<th class="col-1 text-center text-white">数量</th>
+							<th class="col-1 text-center text-white">金額</th>
 							<th class="col-1 text-center text-white">受取</th>
 							<th class="col-1 text-center text-white">修正</th>
 						</tr>
@@ -83,8 +84,9 @@ function disp(){
 							<td class="col-2">{{line.create_date|date:"Y.m.j h:i"}}</td>
 							<td class="col-2">{{line.fromshop}}</td>
 							<td class="col-2">{{line.toshop}}</td>
-							<td class="col-2">{{line.item}}</td>
+							<td class="col-1">{{line.item}}</td>
 							<td class="col-1 text-right">{{line.num}}</td>
+							<td class="col-1 text-right">{{line.totalprice}}</td>
 							{% if line.recieveFlag %}
 							<td class="col-1 text-right">済</td>
 							{% else %}
