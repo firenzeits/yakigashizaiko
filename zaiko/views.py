@@ -129,7 +129,7 @@ def shipping(request):
         itemobj = Item.objects.get(id=itemid)
         
         item = itemobj.item
-        #price = itemobj.price
+        price = itemobj.price
         
         fromstockStatus = StockStatus.objects.get_or_create(item=itemid,shop=fromshop)
         tostockStatus = StockStatus.objects.get_or_create(item=itemid,shop=toshop)
@@ -138,8 +138,8 @@ def shipping(request):
         tonum = tostockStatus[0].num
         
         
-        #totalprice = int(shippingnum)*int(price)
-        totalprice = "XXX"
+        totalprice = int(shippingnum)*int(price)
+        #totalprice = "XXX"
         obj = ShippingOrder()
         #temp = request.POST
         shippingOrder = ShippingOrderForm(request.POST, instance=obj)
@@ -166,7 +166,7 @@ def shipping(request):
                          str(item)+'@￥'+str(price),int(shippingnum),totalprice,\
                          str(Shop.objects.get(id=toshopid)),tonum,shippingnum,int(tonum) + int(shippingnum) ]
 
-            #shippingOrder.totalprice = totalprice
+            shippingOrder.totalprice = totalprice
             if shippingOrder.is_valid():
                 shippingOrder.save()
             #在庫の移動は出荷受取り処理後
