@@ -23,9 +23,9 @@ def index(request):
         recent_date.append(date_format)
 
     arr = []
-    #user = Shop.objects.get(name=request.user)
+    user = Shop.objects.get(name=request.user)
     
-    user = "xxx"
+    #user = "xxx"
     notrecievedorderlist = ""
     #notrecievedorderlist = ShippingOrder.objects.filter(toshop=user,recieveFlag=False)
     
@@ -36,7 +36,7 @@ def index(request):
     #        recieve(norecievedorder)
     #    return redirect(to='index')
     
-    for item in Item.objects.all():
+    for item in Item.objects.values('item'):
         arrline = [0 for i in range(len(shoplist) + 2)]
         arrline[0] = "<p class=\"text-left py-0 mb-0\">" + str(item) + "</p>"
         total = 0
