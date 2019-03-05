@@ -18,11 +18,12 @@ def index(request):
     recent_date=[]
     date_format = datetime(2019,1,1,0,0,0,tzinfo=utc)
 
-    shoplist = Shop.objects.values('shop').order_by('id')
+    shoplist = Shop.objects.all().order_by('id')
     for n in range(len(shoplist)):
         recent_date.append(date_format)
 
     arr = []
+    requser = request.user
     user = Shop.objects.get(name=request.user)
     
     #user = "xxx"
@@ -36,7 +37,7 @@ def index(request):
     #        recieve(norecievedorder)
     #    return redirect(to='index')
     
-    for item in Item.objects.values('item'):
+    for item in Item.objects.all():
         arrline = [0 for i in range(len(shoplist) + 2)]
         arrline[0] = "<p class=\"text-left py-0 mb-0\">" + str(item) + "</p>"
         total = 0
