@@ -60,6 +60,7 @@ function disp(){
     					<p class="px-3" style="font-size:1.5rem">出荷先：{{form.toshop}}</p>
     					<p class="px-3" style="font-size:1.5rem">商品：{{form.item}}</p>
     					<p class="px-3" style="font-size:1.5rem">検索期間：{{form.start}}～{{form.end}}</p>
+    					<p class="px-3" style="font-size:1.5rem">受取：{{form.recieveFlag}}</p>
     					<input type="submit" class="btn btn-danger badge-pill" style="font-size:30px" value="検索">
     				</form>
    				</div>
@@ -67,19 +68,30 @@ function disp(){
     				<table class="container">
     					<p class="text-dark"><span class="font-weight-bold mr-3">検索条件</span>{{msg}}</p>
 						<tr class="row p-2  bg-dark border-bottom">
+							<th class="col-1 text-center text-white">id</th>
 							<th class="col-2 text-center text-white">出荷登録日時</th>
 							<th class="col-2 text-center text-white">出荷元</th>
 							<th class="col-2 text-center text-white">出荷先</th>
-							<th class="col-4 text-center text-white">商品</th>
-							<th class="col-2 text-center text-white">数量</th>
+							<th class="col-2 text-center text-white">商品</th>
+							<th class="col-1 text-center text-white">数量</th>
+							<th class="col-1 text-center text-white">受取</th>
+							<th class="col-1 text-center text-white">修正</th>
 						</tr>
                 {% for line in data %}
 						<tr class="row p-2 border-bottom">
+							<td class="col-1 text-right">{{line.id}}</td>
 							<td class="col-2">{{line.create_date|date:"Y.m.j h:i"}}</td>
 							<td class="col-2">{{line.fromshop}}</td>
 							<td class="col-2">{{line.toshop}}</td>
-							<td class="col-4">{{line.item}}</td>
-							<td class="col-2 text-right">{{line.num}}</td>
+							<td class="col-2">{{line.item}}</td>
+							<td class="col-1 text-right">{{line.num}}</td>
+							{% if line.recieveFlag %}
+							<td class="col-1 text-right">済</td>
+							{% else %}
+							<td class="col-1 text-right">未</td>
+                            {% endif %}
+							
+							<td class="col-1 text-right"><a href={% url 'shippingconfirm' line.id %}><button class="btn btn-dark">修正</button></td></a>
 						</tr>
                 {% endfor %}
 						<tr class="row p-2 bg-dark border-bottom">

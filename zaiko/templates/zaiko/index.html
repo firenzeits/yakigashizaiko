@@ -24,7 +24,7 @@ crossorigin="anonymous"></script>
 </head>
 
 <body class="p-3 bg-dark">
-	<div class="container_fluid">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-6">
 				<h1 class="text-light">在庫状況一覧</h1>
@@ -39,9 +39,49 @@ crossorigin="anonymous"></script>
 			</div>
 		</div>
 		<div class="row">
+    		<div class="col-12">
+        		<p class="text-white">[　<span class="font-weight-bold">{{user}}</span>　]でログインしています。<a href="{% url 'logout' %}">ログアウト</a></p>
+    		</div>
+    		{% if notrecieved %}<!-- クエリセットが空かどうか判定 -->
+    		<div class="col-12">
+        		<div class="border border-light text-white p-2">
+                	<h4>未受領の出荷があります。</h4>
+    				<form action="{% url 'index' %}" method="post">
+    					{% csrf_token %}
+                    <table>
+                    <tr>
+                        <th class="px-2">出荷日</th>
+                        <th class="px-2">出荷店</th>
+                        <th class="px-2">出荷先</th>
+                        <th class="px-2">商品</th>
+                        <th class="px-2">数量</th>
+                        <th class="px-2">受取</th>
+                    </tr> 
+        		{% for line in notrecieved %}
+					<tr>
+    					<td class="px-2">{{line.create_date|date:"Y.m.j h:i"}}</td>
+						<td class="px-2">{{line.fromshop}}</td>
+						<td class="px-2">{{line.toshop}}</td>
+						<td class="px-2">{{line.item}}</td>
+						<td class="px-2">{{line.num}}</td>
+						{% if line.recieveFlag %}
+    					<td class="px-2">済</td>
+    					{% else %}
+    					<td class="px-2">未</td>
+                        {% endif %}
+					</tr>
+        		{% endfor %}
+                </table>
+        		<input type="submit" class="btn btn-danger badge-pill" style="font-size:16px" value="すべて受取済にする。">
+            		</form>
+                </div>
+    		</div>
+    		{% endif %}
+		</div>
+		<div class="row">
 			<div class="col-12">
 				<div class="bg-white p-3 my-3">
-					<table class="container_fluid w-100">
+					<table class="container-fluid w-100">
 						<tr class="mb-1 w-100">
 							<th class="bg-dark text-white text-center"><p class="font-weight-bold py-2 my-2">商品</p></th> 
                 {% for shop in shopdata %}
