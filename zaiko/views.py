@@ -18,7 +18,7 @@ def index(request):
     recent_date=[]
     date_format = datetime(2019,1,1,0,0,0,tzinfo=utc)
 
-    shoplist = Shop.objects.values('name').order_by('id')
+    shoplist = Shop.objects.values('shop').order_by('id')
     for n in range(len(shoplist)):
         recent_date.append(date_format)
 
