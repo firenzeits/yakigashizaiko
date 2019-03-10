@@ -54,7 +54,9 @@ crossorigin="anonymous"></script>
                         <th class="px-2">出荷店</th>
                         <th class="px-2">出荷先</th>
                         <th class="px-2">商品</th>
+                        <th class="px-2">単価</th>
                         <th class="px-2">数量</th>
+                        <th class="px-2">金額</th>
                         <th class="px-2">受取</th>
                     </tr> 
         		{% for line in notrecieved %}
@@ -63,6 +65,7 @@ crossorigin="anonymous"></script>
 						<td class="px-2">{{line.fromshop}}</td>
 						<td class="px-2">{{line.toshop}}</td>
 						<td class="px-2">{{line.item}}</td>
+						<td class="px-2">{{line.price}}</td>
 						<td class="px-2">{{line.num}}</td>
 						<td class="px-2">{{line.totalprice}}</td>
 						{% if line.recieveFlag %}
