@@ -38,12 +38,10 @@ function disp(){
 	<div class="container">
 		<h1 class="text-light"><a href="{% url 'index' %}">TOP</a>>>>出荷</h1>
 		<div class="row">
-    		<div class="col-12">
-        		<p class="text-white">[　<span class="font-weight-bold">{{user}}</span>　]でログインしています。<a href="{% url 'logout' %}">ログアウト</a></p>
-    		</div>
 			<div class="col-12">
 				<div class="bg-light p-3 mb-3">
-    					<form action="{% url 'shipping' %}" method="post">
+<!--
+    			<form action="{% url 'shipping' %}" method="post">
     					{% csrf_token %}
     					<p class="px-3" style="font-size:1.5rem">{{form.fromshop}}から{{form.toshop}}へ</p>
     					<p class="px-3" style="font-size:1.5rem">{{form.item}}を</p>
@@ -51,11 +49,19 @@ function disp(){
 
     					<input type="submit" class="btn btn-danger badge-pill" style="font-size:30px" value="出荷する。">
                  </form>
+-->                 
+                 
+    <form method="post">
+    {% csrf_token %}
+
+    {{ form }}
+    <button type="submit">save</button>
+    </form>
 				</div>
 			</div>
-			{% if msg %}
+			{% if errmsg %}
 			<div class="col-12 text-center text-white" style="font-size:2rem;">
-                <p>{{msg}}</p>
+                <p>{{errmsg}}</p>
             </div>            
             {% endif %}
 			

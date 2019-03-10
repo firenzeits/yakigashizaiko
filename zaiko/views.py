@@ -11,6 +11,7 @@ from datetime import datetime,timedelta
 from pytz import timezone, utc
 from django.db.models import Q
 from django.db.models import Sum
+from django.views.generic import CreateView, FormView
 
 @login_required(login_url='/admin/login/')
 def index(request):
@@ -18,25 +19,23 @@ def index(request):
     recent_date=[]
     date_format = datetime(2019,1,1,0,0,0,tzinfo=utc)
 
-    shoplist = Shop.objects.all()
+    shoplist = Shop.objects.all().order_by('id')
     
     for n in range(len(shoplist)):
         recent_date.append(date_format)
 
     arr = []
-    requser = request.user
     user = Shop.objects.get(name=request.user)
+    shopid = Shop.getId(user)
     
-    #user = "xxx"
-    notrecievedorderlist = ""
-    #notrecievedorderlist = ShippingOrder.objects.filter(toshop=user,recieveFlag=False)
+    notrecievedorderlist = ShippingOrder.objects.filter(toshop=user,recieveFlag=False)
     
-    #if (request.method =='POST'):
-    #    for norecievedorder in notrecievedorderlist:
-    #        norecievedorder.recieveFlag = True
-    #        norecievedorder.save()
-    #        recieve(norecievedorder)
-    #    return redirect(to='index')
+    if (request.method =='POST'):
+        for norecievedorder in notrecievedorderlist:
+            norecievedorder.recieveFlag = True
+            norecievedorder.save()
+            recieve(norecievedorder)
+        return redirect(to='index')
     
     for item in Item.objects.all():
         arrline = [0 for i in range(len(shoplist) + 2)]
@@ -69,6 +68,7 @@ def index(request):
             'data':arr,
             'recentdate':recent_date,
             'user':user,
+            'shopid':shopid,
             }
     return render(request, 'zaiko/index.html', params)
 
@@ -114,71 +114,76 @@ def update(request,shopid):
 
     return render(request, 'zaiko/update.html', params)
 
+class testformview(FormView):
+    form_class = ShippingOrderForm
+    template_name = 'zaiko/shippingform.html'
+    success_url = '.'
+    
+    def form_valid(self, form):
+        return render(self.request, 'zaiko/shipping.html', {'form':form})
+
 @login_required(login_url='/admin/login/')
 def shipping(request):
     msg=""
     data=[]
+    user = Shop.objects.get(name=request.user)
+    shopid = Shop.getId(user)
     if (request.method =='POST'):
         fromshopid = request.POST['fromshop']
         toshopid = request.POST['toshop']
         itemid = request.POST['item']
         shippingnum = request.POST['num']        
-        
+
         fromshop = Shop.objects.get(id=fromshopid)
         toshop = Shop.objects.get(id=toshopid)
         itemobj = Item.objects.get(id=itemid)
-        
-        item = itemobj.item
-        price = itemobj.price
-        
-        fromstockStatus = StockStatus.objects.get_or_create(item=itemid,shop=fromshop)
-        tostockStatus = StockStatus.objects.get_or_create(item=itemid,shop=toshop)
-        
-        fromnum = fromstockStatus[0].num
-        tonum = tostockStatus[0].num
-        
-        
-        totalprice = int(shippingnum)*int(price)
-        #totalprice = "XXX"
-        obj = ShippingOrder()
-        #temp = request.POST
-        shippingOrder = ShippingOrderForm(request.POST, instance=obj)
+
+        item = Item.getItem(itemobj)
+        price = Item.getPrice(itemobj)
+
+        fromstockStatus = StockStatus.objects.get(item=itemid,shop=fromshop)
+        tostockStatus = StockStatus.objects.get(item=itemid,shop=toshop)
+
+        fromnum = StockStatus.getNum(fromstockStatus)
+        tonum = StockStatus.getNum(tostockStatus)
         if ( int(fromnum) < int(shippingnum) ):
             msg="在庫数が出荷数より少ないです。"
-            params = {
-                    'title':'出荷：在庫管理システム',
-                    'form':ShippingOrderForm,
-                    'msg':msg,
-                    'result':data,
-                    }
-            return render(request, 'zaiko/shipping.html', params)
         else:
-            msg="以下の通り在庫を移動させます。"
-#            data.append(["品名:",str(Item.objects.get(id=itemid)),""])
-#            data.append([str(Shop.objects.get(id=fromshopid)),"→",str(Shop.objects.get(id=toshopid))])
-#            data.append([fromnum,shippingnum,tonum])
-#            data.append(["↓ (-"+ shippingnum +")","","↓ (+"+ shippingnum +")"])
-#            data.append([int(fromnum) - int(shippingnum),"",int(tonum) + int(shippingnum)])
 
+            totalprice = int(shippingnum)*int(price)
+            obj = ShippingOrder()
+            shippingOrder = ShippingOrderForm(request.POST, instance=obj)
+            msg="以下の通り在庫を移動させます。"
             #[出荷元、元の在庫、出荷数、出荷後在庫、商品名、出荷数、出荷先店舗、出荷先在庫、出荷数、出荷受取後在庫]
 
             data = [ str(Shop.objects.get(id=fromshopid)),fromnum,shippingnum,int(fromnum) - int(shippingnum),   \
                          str(item)+'@￥'+str(price),int(shippingnum),totalprice,\
                          str(Shop.objects.get(id=toshopid)),tonum,shippingnum,int(tonum) + int(shippingnum) ]
-
-            shippingOrder.totalprice = totalprice
+            #shippingOrder.totalprice = totalprice
+            
             if shippingOrder.is_valid():
-                shippingOrder.save()
-            #在庫の移動は出荷受取り処理後
-            fromstockStatus[0].num = int(fromnum) - int(shippingnum)
-            #tostockStatus[0].num = int(tonum) + int(shippingnum)
-            fromstockStatus[0].save()
-            #tostockStatus[0].save()
+                saveobj = shippingOrder.save(commit=False)
+                saveobj.totalprice = totalprice
+                saveobj.save()
+                
+                #在庫の移動は出荷受取り処理後
+                fromstockStatus.num = int(fromnum) - int(shippingnum)
+                fromstockStatus.save()
+            else:
+                msg = "エラーが発生しました!"
+                data = ""
+
     params = {
             'title':'出荷：在庫管理システム',
-            'form':ShippingOrderForm,
-            'errmsg':msg,
+            'form':ShippingOrderForm(
+                        initial = {
+                                    'fromshop' : shopid,
+                                }
+                    ),
+            'msg':msg,
             'result':data,
+            'user':user,
+            'shopid':shopid,
             }
     return render(request, 'zaiko/shipping.html', params)
 
@@ -230,6 +235,7 @@ def shippinghistory(request):
         msg = "すべて"
         
     total = data.aggregate(Sum('num'))
+    totalprice = data.aggregate(Sum('totalprice'))
             
     params = {
             'title':"出荷履歴",
@@ -238,6 +244,7 @@ def shippinghistory(request):
             'msg':msg,
             'count':data.count(),
             'sum':total['num__sum'],
+            'totalprice':totalprice['totalprice__sum'],
             }
     
     
