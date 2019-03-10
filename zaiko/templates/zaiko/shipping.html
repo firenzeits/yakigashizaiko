@@ -36,7 +36,7 @@ function disp(){
 </head>
 <body class="p-3 bg-dark">
 	<div class="container">
-		<h1 class="text-light"><a href="{% url 'index' %}">TOP</a>>>>出荷</h1>
+		<h1 class="text-light"><a href="{% url 'index' %}">TOP</a>>>>在庫移動</h1>
 		<div class="row">
     		<div class="col-12">
         		<p class="text-white">[　<span class="font-weight-bold">{{user}}</span>　]でログインしています。<a href="{% url 'logout' %}">ログアウト</a></p>
@@ -62,10 +62,9 @@ function disp(){
 			{% if result %}
 			<div class="col-12">
 				<div class="bg-light p-3 mb-3">
-					<h2 class="text-danger">{{msg}}</h2>
                     <div class="container-fluid">
                         <div class="row text-center" style="font-size:2rem;">
-                            <div class="col-4 p-2 bg-secondary">
+                            <div class="col-4 p-2 border border-secondary">
                                 <div class="p-2">{{result.0}}</div>
                                 <div style="font-size:1rem">{{result.1}}　- {{result.2}}</div>
                                 <div class="font-weight-bold">{{result.3}}</div>
@@ -80,7 +79,7 @@ function disp(){
                                 </div>
                                 <div class="p-2">￥{{result.6}}</div>
                             </div>
-                            <div class="col-4 p-2 bg-secondary">
+                            <div class="col-4 p-2 border border-secondary">
                                 <div class="p-2">{{result.7}}</div>
                                 <div style="font-size:1rem">{{result.8}}　+ {{result.9}}</div>
                                 <div class="font-weight-bold">{{result.10}}</div>

@@ -9,24 +9,16 @@ from django import forms
 from .models import Item,Shop,ShippingOrder,StockStatus
 
     
-class StockStatusForm(forms.ModelForm):
-#    item = forms.ModelChoiceField(label='item',queryset=Item.objects.all())
-#    num = forms.IntegerField(label='num')       
+class StockStatusForm(forms.ModelForm): 
     class Meta:
         model = StockStatus
         fields = ['item', 'num']
     
 class ShippingOrderForm(forms.ModelForm):
-    #fromshop = forms.ModelChoiceField(label='出荷店',queryset=Shop.objects.all())
-    #toshop = forms.ModelChoiceField(label='出荷先',queryset=Shop.objects.all())
-    #item = forms.ModelChoiceField(label='商品名',queryset=Item.objects.all())
-    #num = forms.IntegerField(label='数量')
-    #totalprice = forms.IntegerField(label='数量')
     
     class Meta:
         model = ShippingOrder
         fields = [ 'fromshop', 'toshop', 'item', 'num']
-        #fields = [ 'fromshop', 'toshop', 'item', 'num', 'totalprice']
     
 
 class ShippingHistoryForm(forms.ModelForm):

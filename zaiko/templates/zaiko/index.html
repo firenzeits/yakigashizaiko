@@ -35,7 +35,7 @@ crossorigin="anonymous"></script>
 				<a href="{% url 'shippinghistory' %}"><button class="btn btn-success w-100"">出荷状況</button></a>
 			</div>
 			<div class="col-2">
-				<a href="{% url 'shipping' %}"><button class="btn btn-danger w-100">出荷</button></a>
+				<a href="{% url 'shipping' %}"><button class="btn btn-danger w-100">在庫移動</button></a>
 			</div>
 		</div>
 		<div class="row">
@@ -45,7 +45,7 @@ crossorigin="anonymous"></script>
     		{% if notrecieved %}<!-- クエリセットが空かどうか判定 -->
     		<div class="col-12">
         		<div class="border border-light text-white p-2">
-                	<h4>未受領の出荷があります。</h4>
+                	<h4>未受取の出荷があります。</h4>
     				<form action="{% url 'index' %}" method="post">
     					{% csrf_token %}
                     <table>
@@ -64,6 +64,7 @@ crossorigin="anonymous"></script>
 						<td class="px-2">{{line.toshop}}</td>
 						<td class="px-2">{{line.item}}</td>
 						<td class="px-2">{{line.num}}</td>
+						<td class="px-2">{{line.totalprice}}</td>
 						{% if line.recieveFlag %}
     					<td class="px-2">済</td>
     					{% else %}

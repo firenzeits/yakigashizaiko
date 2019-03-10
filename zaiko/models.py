@@ -47,6 +47,7 @@ class ShippingOrder(models.Model):
     fromshop = models.ForeignKey(Shop, on_delete=models.CASCADE,related_name = "fromshop")
     toshop = models.ForeignKey(Shop, on_delete=models.CASCADE,related_name = "toshop" )
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    price = models.IntegerField(default=0)
     num = models.IntegerField(default=0)
     totalprice = models.IntegerField(default=0)
     recieveFlag = models.BooleanField(default=False)

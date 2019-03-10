@@ -79,7 +79,7 @@ def update(request,shopid):
     
     shopname = Shop.objects.get(id=shopid)
 #    zaikolist = StockStatus.objects.filter(shop=shopid).order_by('-update_date').values_list('item','num','id','update_date')
-    zaikolist = StockStatus.objects.filter(shop=shopid).values_list('item','num','id','update_date')
+    zaikolist = StockStatus.objects.filter(shop=shopid).values_list('item','num','id','update_date').order_by('id')
     for zaiko in zaikolist:
         itemid=zaiko[0]
         itemname = Item.objects.filter(id=itemid).values_list('item')
@@ -87,6 +87,7 @@ def update(request,shopid):
         innerdata.append(itemname[0][0])    #商品名
         innerdata.append(zaiko[1])          #数量
         innerdata.append(zaiko[3])          #更新日時
+        innerdata.append(itemid)
         if ( zaiko[3] > recent_date):
             recent_date = zaiko[3]
             
@@ -114,14 +115,7 @@ def update(request,shopid):
 
     return render(request, 'zaiko/update.html', params)
 
-class testformview(FormView):
-    form_class = ShippingOrderForm
-    template_name = 'zaiko/shippingform.html'
-    success_url = '.'
-    
-    def form_valid(self, form):
-        return render(self.request, 'zaiko/shipping.html', {'form':form})
-
+ 
 @login_required(login_url='/admin/login/')
 def shipping(request):
     msg=""
@@ -163,6 +157,7 @@ def shipping(request):
             
             if shippingOrder.is_valid():
                 saveobj = shippingOrder.save(commit=False)
+                saveobj.price = price
                 saveobj.totalprice = totalprice
                 saveobj.save()
                 
@@ -261,7 +256,10 @@ def shippingconfirm(request,shippingid):
     
     if (request.method =='POST'):
         form = ShippingConfirmForm(request.POST, instance=data)
-        form.save()
+        shippingorder = form.save(commit = False)
+        shippingorder.totalprice = shippingorder.num * shippingorder.price
+        shippingorder.save()
+        
         afterflag = bool(request.POST['recieveFlag'])
         if ( flag != afterflag and afterflag):
             flag=afterflag
@@ -277,6 +275,9 @@ def shippingconfirm(request,shippingid):
             }
     return render(request, 'zaiko/shippingconfirm.html', params)
 
+#------------------------------
+# 出荷を受け取ったときに、受取数を在庫に加算する
+#------------------------------
 def recieve(data):
     
     toshop = data.toshop
@@ -286,7 +287,3 @@ def recieve(data):
     stockstatusobj = StockStatus.objects.get_or_create(item=item,shop=toshop)
     stockstatusobj[0].num = int(stockstatusobj[0].num) + int(num)
     stockstatusobj[0].save()
-
-
-    
-    

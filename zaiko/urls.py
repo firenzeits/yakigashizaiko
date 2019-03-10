@@ -9,8 +9,6 @@ from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
 
-from zaiko.views import testformview
-
 urlpatterns = [
         path('', views.index, name='index'),
         path('update/<int:shopid>/', views.update, name='update'),
@@ -18,6 +16,5 @@ urlpatterns = [
         path('shippinghistory', views.shippinghistory, name='shippinghistory'),
         path('shippingconfirm/<int:shippingid>/', views.shippingconfirm, name='shippingconfirm'),
         path('logout', auth_views.LogoutView.as_view(), name='logout'),
-        path('shippingform', views.testformview.as_view()),
         
         ]

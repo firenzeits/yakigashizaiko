@@ -53,15 +53,20 @@ function disp(){
 				{% if data %}
 					<table class="container">
 						<tr class="row p-2">
-							<th class="col-6 text-center bg-dark text-white">商品</th>
+							<th class="col-1 text-center bg-dark text-white">ID</th>
+							<th class="col-4 text-center bg-dark text-white">商品</th>
 							<th class="col-3 text-center bg-dark text-white">在庫</th>
 							<th class="col-3 text-center bg-dark text-white">更新日時</th>
+							<th class="col-1 text-center bg-dark text-white"></th>
 						</tr>
                     {% for stock in data %}
 						<tr class="row p-2 border-bottom">
-    							<td class="col-6 text-weight-bold border-left border-right">{{stock.0}}</td>
-    							<td class="col-3 text-right border-left border-right">{{stock.1}}</td>
+
+    							<td class="col-1 text-weight-bold border-left border-right">{{stock.3}}</td>
+    							<td class="col-4 text-weight-bold border-left border-right">{{stock.0}}</td>
+    							<td class="col-3 text-right text-weight-bold border-left border-right">{{stock.1}}</td>
     							<td class="col-3 text-center border-left border-right"><div class="labelbg-dark text-dark p-1 px-3">{{stock.2|date:"Y-m-j H:i:s"}}</div></td>
+                            
 						</tr>
                     {% endfor %}
 					</table>
